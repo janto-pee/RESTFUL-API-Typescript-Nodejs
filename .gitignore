@@ -1,0 +1,6 @@
+# Dempedency directory
+node_modules
+
+# Lock files
+package-lock.json
+config
