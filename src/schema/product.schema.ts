@@ -11,7 +11,7 @@ const bodyPayload = {
 
 const paramPayload = {
   params: object({
-    productId: number({ required_error: "this field is required" }),
+    productId: string({ required_error: "this field is required" }),
   }),
 };
 
@@ -21,6 +21,7 @@ export const createProductSchema = object({
 export const findProductSchema = object({
   ...paramPayload,
 });
+console.log("update-product-schema");
 export const updateProductSchema = object({
   ...bodyPayload,
   ...paramPayload,

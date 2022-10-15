@@ -12,19 +12,14 @@ const deserializeUser = async (
     ""
   );
 
-  console.log("accessToken:", accessToken);
-
   if (!accessToken) {
     return next();
   }
 
   const { decoded, expired } = verifyJwt(accessToken);
 
-  console.log("decoded: ", decoded);
-
   if (decoded) {
     res.locals.user = decoded;
-    console.log("res.locals.user", decoded);
     return next();
   }
   return next();

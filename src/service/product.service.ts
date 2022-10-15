@@ -8,6 +8,7 @@ export async function createProduct(input: ProductInput) {
   const product = await ProductModel.create(input);
   return product;
 }
+
 export async function findProduct(
   query: FilterQuery<ProductDocument>,
   options: QueryOptions = { lean: true }
@@ -15,23 +16,21 @@ export async function findProduct(
   const product = await ProductModel.findOne(query, {}, options);
   return product;
 }
+
 export async function updateProduct(
   query: FilterQuery<ProductDocument>,
   input: UpdateQuery<ProductDocument>,
   option: QueryOptions = { new: true }
 ) {
-  const product = ProductModel.findOne(query);
-  if (!product) {
-    return false;
-  }
-  const updatedProduct = ProductModel.findOneAndUpdate(query, input, option);
-  return updatedProduct;
+  return ProductModel.findOneAndUpdate(query, input, option);
 }
+
 export async function deleteProduct(query: FilterQuery<ProductDocument>) {
-  const product = ProductModel.findOne(query);
-  if (!product) {
-    return false;
-  }
-  await ProductModel.findOneAndUpdate(query);
-  return true;
+  return ProductModel.findOneAndDelete(query);
+}
+
+// Find all products
+export async function findAllProducts() {
+  const products = await ProductModel.find();
+  return products;
 }

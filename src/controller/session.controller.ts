@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 import { validateUser } from "../service/user.service";
 import { signJwt, verifyJwt } from "../utils/jwt.utils";
 import config from "config";
-import { createSession, findSession } from "../service/session.service";
+import {
+  createSession,
+  findSession,
+  updateSession,
+} from "../service/session.service";
 
 export async function CreateSessionHandler(req: Request, res: Response) {
   // validate user
@@ -38,10 +42,24 @@ export async function CreateSessionHandler(req: Request, res: Response) {
 export async function findSessionHandler(req: Request, res: Response) {
   try {
     const userId = res.locals.user._id;
-    console.log(userId);
-    const session = await findSession({ user: userId });
+    console.log("res-locals: ", res.locals);
+    const session = await findSession({ user: userId, valid: true });
     res.status(200).send(session);
   } catch (error) {
     res.status(400).send(error);
   }
+}
+
+export async function deleteSessionHandler(req: Request, res: Response) {
+  try {
+    const userId = res.locals.user._id;
+    const sessionId = res.locals.user.session;
+    await updateSession({ _id: sessionId }, { user: userId, valid: false });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+  return res.send({
+    accessToken: null,
+    refreshToken: null,
+  });
 }

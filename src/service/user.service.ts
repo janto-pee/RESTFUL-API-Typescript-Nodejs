@@ -21,3 +21,7 @@ export async function validateUser(
   }
   return omit(user.toJSON(), "password");
 }
+
+export async function findAllUsers() {
+  return UserModel.find();
+}
